@@ -1,0 +1,68 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+
+<!-- Import components -->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../jviz/jviz.html">
+<link rel="import" href="../jviz-styles/jviz-styles.html">
+<link rel="import" href="../jviz-icons/jviz-icons.html">
+
+<!-- Sidebar element -->
+<dom-module id="desk-sidebar">
+  <template>
+    <style>
+      :host
+      {
+        --desk-sidebar--color-background: var(--jviz-navy);
+        --desk-sidebar--color-text: var(--jviz-navy-over);
+      }
+      :host
+      {
+        width: 240px;
+        height: 100%;
+        z-index: 5;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        background-color: var(--desk-sidebar--color-background);
+        color: var(--desk-sidebar--color-text) !important;
+      }
+    </style>
+    <content></content>
+  </template>
+</dom-module>
+
+<!-- Sidebar logic -->
+<script>
+  //Initialize the desk sidebar object
+  var desk_sidebar = { is: 'desk-sidebar' };
+
+  //Sidebar properties
+  desk_sidebar.properties = {};
+  desk_sidebar.properties.color = { type: String, reflectToAttribute: true, observer: '_update_color' };
+
+  //Update the sidebar color
+  desk_sidebar._update_color = function(value)
+  {
+    //Update the sidebar background color
+    this.customStyle['--desk-sidebar--color-background'] = 'var(--jviz-' + value + ')';
+
+    //Update the sidebar text color
+    this.customStyle['--desk-sidebar--color-text'] = 'var(--jviz-' + value + '-over)';
+
+    //Update the styles
+    this.updateStyles();
+  };
+
+  //Register the sidebar element
+  Polymer(desk_sidebar);
+</script>
