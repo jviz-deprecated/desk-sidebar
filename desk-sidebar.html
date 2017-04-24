@@ -10,6 +10,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 <link rel="import" href="../jviz-styles/jviz-styles.html">
 <link rel="import" href="../jviz-icons/jviz-icons.html">
 
+<!-- Import sidebar elements -->
+<link rel="import" href="./desk-sidebar-item.html">
+
 <!-- Sidebar element -->
 <dom-module id="desk-sidebar">
   <template>
@@ -21,18 +24,15 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       }
       :host
       {
-        width: 240px;
+        width: 120px;
         height: 100%;
         z-index: 5;
         display: -ms-flexbox;
-        display: flex;
+        display: block;
         -ms-flex-direction: column;
         flex-direction: column;
         -ms-flex-wrap: nowrap;
         flex-wrap: nowrap;
-        position: fixed;
-        top: 0px;
-        left: 0px;
         background-color: var(--desk-sidebar--color-background);
         color: var(--desk-sidebar--color-text) !important;
       }
@@ -61,6 +61,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
     //Update the styles
     this.updateStyles();
+
+    //Emit the change color event
+    this.fire('change-color', { color: value }, {});
   };
 
   //Register the sidebar element
