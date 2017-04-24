@@ -1,0 +1,103 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+
+<!-- Import components -->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../jviz/jviz.html">
+<link rel="import" href="../jviz-styles/jviz-styles.html">
+<link rel="import" href="../jviz-icons/jviz-icons.html">
+
+<!-- Sidebar item element -->
+<dom-module id="desk-sidebar-item">
+  <template>
+    <style>
+      :host
+      {
+        display: block;
+        width: 100%;
+        height: 80px;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+        position: relative;
+      }
+      :host:hover
+      {
+        opacity: 1.0;
+        cursor: pointer;
+      }
+      :host .icon
+      {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 0px;
+        width: 100%;
+        height: 45px;
+      }
+      :host .text
+      {
+        display: block;
+        width: 100%;
+        height: 20px;
+        position: absolute;
+        top: 50px;
+        left: 0px;
+        font-weight: bold;
+        text-decoration: none !important;
+      }
+    </style>
+    <template is="dom-if" if="{{ icon }}">
+      <div class="icon" align="center">
+        <jviz-icons icon$="{{ icon }}" color$="{{ color }}" size="45px" reflect></jviz-icons>
+      </div>
+    </template>
+    <template is="dom-if" if="{{ text }}">
+      <div class="text" align="center">{{ text }}</div>
+    </template>
+  </template>
+</dom-module>
+
+<!-- Sidebar item logic -->
+<script>
+  //Initialize the sidebar item element
+  var desk_sidebar_item = { is: 'desk-sidebar-item' };
+
+  //Sidebar item properties
+  desk_sidebar_item.properties = {};
+  desk_sidebar_item.properties.icon = { type: String, reflectToAttribute: true };
+  desk_sidebar_item.properties.text = { type: String, reflectToAttribute: true };
+  desk_sidebar_item.properties.color = { type: String, value: 'navy' };
+
+  //Attached event
+  desk_sidebar_item.attached = function()
+  {
+    //Save this
+    var self = this;
+
+    //Check for desk sidebar element
+    if(this.parentNode.tagName.toLowerCase() !== 'desk-sidebar'){ return; }
+
+    //Add the event listener
+    this.parentNode.addEventListener('change-color', function(e)
+    {
+      //Update the icon color
+      return self._update_color(e.detail.color);
+    });
+
+    //Update the color value
+    this.color = this.parentNode.color;
+  };
+
+  //Update the icon color
+  desk_sidebar_item._update_color = function(value)
+  {
+    //Update the color value
+    this.color = value;
+  };
+
+  //Register the sidebar item
+  Polymer(desk_sidebar_item);
+</script>
