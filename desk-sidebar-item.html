@@ -16,17 +16,26 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     <style>
       :host
       {
+        --desk-sidebar-item--color-background: var(--jviz-navy-3);
+        --desk-sidebar-item--color-text: var(--jviz-navy-over);
+      }
+      :host
+      {
         display: block;
         width: 100%;
         height: 80px;
-        opacity: 0.7;
-        transition: opacity 0.3s;
+        transition: all 0.3s;
         position: relative;
+        color: var(--desk-sidebar-item--color-text);
       }
       :host:hover
       {
-        opacity: 1.0;
         cursor: pointer;
+        background-color: var(--desk-sidebar-item--color-background);
+      }
+      :host[selected]
+      {
+        background-color: var(--desk-sidebar-item--color-background);
       }
       :host .icon
       {
@@ -36,6 +45,15 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         left: 0px;
         width: 100%;
         height: 45px;
+        opacity: var(--desk-sidebar-item--opacity-default);
+      }
+      :host:hover .icon
+      {
+        opacity: 1.0 !important;
+      }
+      :host[selected] .icon
+      {
+        opacity: var(--desk-sidebar-item--opacity-selected);
       }
       :host .text
       {
@@ -45,8 +63,18 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         position: absolute;
         top: 50px;
         left: 0px;
+        font-size: 12px;
         font-weight: bold;
         text-decoration: none !important;
+        opacity: var(--desk-sidebar-item--opacity-default);
+      }
+      :host:hover .text
+      {
+        opacity: 1.0 !important;
+      }
+      :host[selected] .text
+      {
+        opacity: var(--desk-sidebar-item--opacity-selected);
       }
     </style>
     <template is="dom-if" if="{{ icon }}">
@@ -69,7 +97,8 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   desk_sidebar_item.properties = {};
   desk_sidebar_item.properties.icon = { type: String, reflectToAttribute: true };
   desk_sidebar_item.properties.text = { type: String, reflectToAttribute: true };
-  desk_sidebar_item.properties.color = { type: String, value: 'navy' };
+  desk_sidebar_item.properties.color = { type: String, reflectToAttribute: true, observer: '_update_color', value: 'navy' };
+  desk_sidebar_item.properties.selected = { type: Boolean, reflectToAttribute: true };
 
   //Attached event
   desk_sidebar_item.attached = function()
@@ -84,7 +113,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     this.parentNode.addEventListener('change-color', function(e)
     {
       //Update the icon color
-      return self._update_color(e.detail.color);
+      self.color = e.detail.color;
     });
 
     //Update the color value
@@ -94,8 +123,14 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Update the icon color
   desk_sidebar_item._update_color = function(value)
   {
-    //Update the color value
-    this.color = value;
+    //Update the sidebar background color
+    this.customStyle['--desk-sidebar-item--color-background'] = 'var(--jviz-' + value + '-3)';
+
+    //Update the sidebar text color
+    this.customStyle['--desk-sidebar-item--color-text'] = 'var(--jviz-' + value + '-over)';
+
+    //Update the styles
+    this.updateStyles();
   };
 
   //Register the sidebar item
