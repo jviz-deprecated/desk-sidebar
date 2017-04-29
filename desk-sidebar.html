@@ -21,20 +21,15 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     <style>
       :host
       {
+        /* Custom sidebar variables */
         --desk-sidebar--color-background: var(--jviz-navy);
         --desk-sidebar--color-text: var(--jviz-navy-over);
       }
       :host
       {
-        width: 120px;
-        height: 100%;
-        z-index: 5;
-        display: -ms-flexbox;
         display: block;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+        width: var(--desk-sidebar--width);
+        height: 100%;
         background-color: var(--desk-sidebar--color-background);
         color: var(--desk-sidebar--color-text) !important;
       }
